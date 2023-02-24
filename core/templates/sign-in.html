@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Sign In{% endblock title %}
+
+{% block content %}
+<section class="breadcrumbs">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Sign In</h2>
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li>Sign In</li>
+        </ol>
+      </div>
+
+    </div>
+  </section><!-- End Breadcrumbs Section -->
+
+  <section class="inner-page">
+    <div class="container login-container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 login-form">
+                <h4 class="text-center text-uppercase mb-3">
+                    <b>
+                        {% if request.GET.next != "/doctor/" %}
+                        Patient
+                        {% else %}
+                        Doctor
+                        {% endif %}
+                    </b>
+                </h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    {% comment %} <div class="form-group mb-2">
+                        <input type="text" class="form-control" placeholder="johnDoe@example.com" value="" />
+                    </div>
+                    <div class="form-group mb-2">
+                        <input type="password" class="form-control" placeholder="*****" value="" />
+                    </div> {% endcomment %}
+                    <div class="form-group mb-2">
+                        <input type="submit" class="btnSubmit" value="Sign In" />
+                    </div>
+                    <p class="text-center mt-3">
+                        New to Medilab MMS? <a href="/sign-up/?next={{ request.GET.next }}"><b>Sign Up</b></a>
+                    </p>
+
+                    <div class="form-group">
+                        <a href="#" class="ForgetPwd" value="Login">Forget Password?</a>
+                        <a href="#" class="ForgetPwd" value="Login">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </section
+{% endblock content %}

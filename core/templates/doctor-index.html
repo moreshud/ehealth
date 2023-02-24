@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock title %}
+{% block title %}Sign In{% endblock title %}
 
 {% block content %}
+<section class="breadcrumbs">
+    <div class="container">
 
-<!-- ======= Why Us Section ======= -->
-<section id="why-us" class="why-us">
-  <div class="container">
-    <h1>Doctor Template</h1>
-  </div>
-  </section><!-- End Why Us Section -->
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Hi! {{request.user.get_full_name | title}} | DESIGNATION</h2>
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li>Dashboard</li>
+        </ol>
+      </div>
 
+    </div>
+  </section><!-- End Breadcrumbs Section -->
+
+  <section class="inner-page">
+    <div class="container">
+      <p>
+        Example Doctor page template
+      </p>
+    </div>
+  </section
 {% endblock content %}
