@@ -1,7 +1,11 @@
 from django.contrib import admin
-# from .models import Patient, Doctor
+from .models import Doctor, Patient, User
 
 # Register your models here.
+# @admin.register(User)
+# class UserAdmin(admin.ModelAdmin):
+#     pass
 
-# admin.register(Patient)
-# admin.register(Doctor)
+admin.site.register(User)
+admin.site.register(Patient)
+admin.site.register(Doctor)

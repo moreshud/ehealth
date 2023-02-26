@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+
+from .models import User
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=250)
@@ -10,7 +12,7 @@ class SignUpForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ("email", "first_name", "last_name", "password1", "password2")
+        fields = ("first_name", "last_name", "gender","email", "password1", "password2","user_type",)
 
     def clean_email(self):
         email = self.cleaned_data["email"].lower()

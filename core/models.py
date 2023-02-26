@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.base_user import BaseUserManager
 # Create your models here.
+
+STATUS = [
+    ("ACTIVE", "ACTIVE"),
+    ("INACTIVE", "INACTIVE"),
+]
+
 class TimestampedModel(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -8,77 +16,113 @@ class TimestampedModel(models.Model):
     class Meta:
         abstract = True
         
-# class User(AbstractUser, TimestampedModel):
-#     GENDER_CHOICES = [
-#         ("Male", "Male"),
-#         ("Female", "Female"),
-#     ]
-    
-#     USER_TYPE_CHOICES = [
-#         ("DOCTOR", "DOCTOR"),
-#         ("PATIENT", "PATIENT"),
-#     ]
+class UserManager(BaseUserManager):
+    use_in_migrations = True
 
-#     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="", null=True)
-#     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default="PATIENT")
+    def _create_user(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError('Users require an email field')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
+    def create_user(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(email, password, **extra_fields)
 
-# class Patient(TimestampedModel):
-#     MARITAL_STATUS_CHOICES = [
-#         ('SINGLE', 'SINGLE'),
-#         ('MARRIED', 'MARRIED'),
-#         ('DIVORCED', 'DIVORCED'),
-#     ]
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(email, password, **extra_fields)
+        
+class User(AbstractUser, TimestampedModel):
+    GENDER_CHOICES = [
+        ("Male", "Male"),
+        ("Female", "Female"),
+    ]
     
-#     BLOOD_GROUP_CHOICES = [
-#         ('A+', 'A+'),
-#         ('A-', 'A-'),
-#         ('B+', 'B+'),
-#         ('B-', 'B-'),
-#         ('AB+', 'AB+'),
-#         ('AB-', 'AB-'),
-#         ('O+', 'O+'),
-#         ('O-', 'O-'),
-#     ]
+    USER_TYPE_CHOICES = [
+        ("DOCTOR", "DOCTOR"),
+        ("PATIENT", "PATIENT"),
+    ]
+    username = None
+    email = models.EmailField(_('email address'), unique=True)
     
-#     GENOTYPE_CHOICES = [
-#         ('AA', 'AA'),
-#         ('AB', 'AB'),
-#         ('AS', 'AS'),
-#     ]
-#     patient = models.OneToOneField("User", on_delete=models.CASCADE)
-#     # avatar = 
-#     phone_number = models.CharField(max_length=200, unique=True, null=True, blank=True)
-#     martial_status = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, blank=True)
-#     # brith_date
-#     blood_group = models.CharField(max_length=10, choices=BLOOD_GROUP_CHOICES, blank=True)
-#     genotype = models.CharField(max_length=10, choices=GENOTYPE_CHOICES, blank=True)
-#     # status
+    objects = UserManager()
     
-#     # def __str__(self):
-#     #     return self.patient.user.full_name
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="", null=True)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default="PATIENT")
     
-    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
 
-# class Doctor(TimestampedModel):
-#     SPECIALITY_CHOICES = [
-#         (1, "GENERAL"),
-#         (2, "SURGEON"),
-#         (3, "PEDIATRIC"),
-#         (4, 'PHYSIATRIST'),
-#     ]
+class Patient(TimestampedModel):
+    MARITAL_STATUS_CHOICES = [
+        ('SINGLE', 'SINGLE'),
+        ('MARRIED', 'MARRIED'),
+        ('DIVORCED', 'DIVORCED'),
+    ]
     
-#     # avatar 
-#     speciality = models.PositiveSmallIntegerField(choices=SPECIALITY_CHOICES, default=1)
-    # status
+    BLOOD_GROUP_CHOICES = [
+        ('A+', 'A+'),
+        ('A-', 'A-'),
+        ('B+', 'B+'),
+        ('B-', 'B-'),
+        ('AB+', 'AB+'),
+        ('AB-', 'AB-'),
+        ('O+', 'O+'),
+        ('O-', 'O-'),
+    ]
+    
+    GENOTYPE_CHOICES = [
+        ('AA', 'AA'),
+        ('AB', 'AB'),
+        ('AS', 'AS'),
+    ]
+    patient = models.OneToOneField("User", on_delete=models.CASCADE, related_name="patient")
+    # avatar = 
+    phone_number = models.CharField(max_length=200, unique=True, null=True, blank=True)
+    martial_status = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, blank=True)
+    brith_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    blood_group = models.CharField(max_length=10, choices=BLOOD_GROUP_CHOICES, null=True, blank=True)
+    genotype = models.CharField(max_length=10, choices=GENOTYPE_CHOICES, blank=True)
+    status = models.CharField(max_length=8, choices=STATUS, default="ACTIVE")
+    
+    # def __str__(self):
+    #     return self.patient.full_name
+    
+    
+
+
+class Doctor(TimestampedModel):
+    SPECIALITY_CHOICES = [
+        ("GENERAL", "GENERAL"),
+        ("SURGEON", "SURGEON"),
+        ("PEDIATRIC", "PEDIATRIC"),
+        ("PHYSIATRIST", 'PHYSIATRIST'),
+    ]
+    doctor = models.OneToOneField("User", on_delete=models.CASCADE, related_name="doctor")
+    # avatar 
+    speciality = models.CharField(max_length=20, choices=SPECIALITY_CHOICES, default="GENERAL")
+    status = models.CharField(max_length=8, choices=STATUS, default="ACTIVE")
+
 
 # class MedicalRecord(TimestampedModel):
 #     MEDICS_CATEFORY_CHOICES = [
-#         (1, "CHECKUP"),
-#         (2, "MALARIA FEVER"),
-#         (3, "TYPHOID"),
-#         (4, "SURGERY"),
+#         ("CHECKUP", "CHECKUP"),
+#         "MALARIA 2, "MALARIA FEVER"),
+#         ("TYPHOID", "TYPHOID"),
+#         ("SURGERY", "SURGERY"),
 #         (5, 'MENTAL ISSUES'),
 #         (6, 'OTHRE'),
 #     ]
@@ -89,15 +133,15 @@ class TimestampedModel(models.Model):
     
 # class Appointment(TimestampedModel):
 #     APPOINTEMENT_SESSION_CHOICES = [
-#         (1, "MORNING"),
-#         (2, "AFTERNOON"),
-#         (3, "EVENING"),
+#         ("MORNING", "MORNING"),
+#         ("AFTERNOON", "AFTERNOON"),
+#         ("EVENING", "EVENING"),
 #     ]
     
 #     CASE_TYPE_CHOICES = [
-#         (1, "CHECKUP"),
-#         (2, "REPORT"),
-#         (3, "EMERGENCY"),
+#         ("CHECKUP", "CHECKUP"),
+#         ("REPORT", "REPORT"),
+#         ("EMERGENCY", "EMERGENCY"),
 #     ]
     
 #     APPOINTMENT_STATUS_CHOICES = [

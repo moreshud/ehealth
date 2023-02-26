@@ -6,7 +6,7 @@
     <div class="container">
 
       <div class="d-flex justify-content-between align-items-center">
-        <h2>Hi! {{request.user.get_full_name | title}} | DESIGNATION</h2>
+        <h2>Hi! {{request.user.get_full_name | title}} | <small>{{ request.user.doctor.speciality | upper}}</small></h2>
         <ol>
           <li><a href="index.html">Home</a></li>
           <li>Dashboard</li>
