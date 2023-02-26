@@ -89,21 +89,18 @@ class Patient(TimestampedModel):
         ('AB', 'AB'),
         ('AS', 'AS'),
     ]
-    patient = models.OneToOneField("User", on_delete=models.CASCADE, related_name="patient")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     # avatar = 
     phone_number = models.CharField(max_length=200, unique=True, null=True, blank=True)
-    martial_status = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, blank=True)
-    brith_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    marital_status = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, blank=True)
+    birth_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
     blood_group = models.CharField(max_length=10, choices=BLOOD_GROUP_CHOICES, null=True, blank=True)
     genotype = models.CharField(max_length=10, choices=GENOTYPE_CHOICES, blank=True)
     status = models.CharField(max_length=8, choices=STATUS, default="ACTIVE")
     
     # def __str__(self):
-    #     return self.patient.full_name
+    #     return self.user.get_full_name()
     
-    
-
-
 class Doctor(TimestampedModel):
     SPECIALITY_CHOICES = [
         ("GENERAL", "GENERAL"),
@@ -111,46 +108,45 @@ class Doctor(TimestampedModel):
         ("PEDIATRIC", "PEDIATRIC"),
         ("PHYSIATRIST", 'PHYSIATRIST'),
     ]
-    doctor = models.OneToOneField("User", on_delete=models.CASCADE, related_name="doctor")
-    # avatar 
+    user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True,)
     speciality = models.CharField(max_length=20, choices=SPECIALITY_CHOICES, default="GENERAL")
     status = models.CharField(max_length=8, choices=STATUS, default="ACTIVE")
 
 
-# class MedicalRecord(TimestampedModel):
-#     MEDICS_CATEFORY_CHOICES = [
-#         ("CHECKUP", "CHECKUP"),
-#         "MALARIA 2, "MALARIA FEVER"),
-#         ("TYPHOID", "TYPHOID"),
-#         ("SURGERY", "SURGERY"),
-#         (5, 'MENTAL ISSUES'),
-#         (6, 'OTHRE'),
-#     ]
-#     # patient
-#     # doctor
-#     category = models.PositiveSmallIntegerField(choices=MEDICS_CATEFORY_CHOICES, default=1)
+class MedicsAppointment(TimestampedModel):
+    MEDICS_CATEFORY_CHOICES = [
+        ("CHECKUP", "CHECKUP"),
+        ("MALARIA", "MALARIA"),
+        ("TYPHOID", "TYPHOID"),
+        ("SURGERY", "SURGERY"),
+        ("MENTAL HEALTH", "MENTAL HEALTH"),
+        ("OTHER", "OTHER"),
+    ]
     
+    APPOINTEMENT_SESSION_CHOICES = [
+        ("MORNING", "MORNING"),
+        ("AFTERNOON", "AFTERNOON"),
+        ("EVENING", "EVENING"),
+    ]
     
-# class Appointment(TimestampedModel):
-#     APPOINTEMENT_SESSION_CHOICES = [
-#         ("MORNING", "MORNING"),
-#         ("AFTERNOON", "AFTERNOON"),
-#         ("EVENING", "EVENING"),
-#     ]
+    CASE_TYPE_CHOICES = [
+        ("CHECKUP", "CHECKUP"),
+        ("REPORT", "REPORT"),
+        ("EMERGENCY", "EMERGENCY"),
+    ]
     
-#     CASE_TYPE_CHOICES = [
-#         ("CHECKUP", "CHECKUP"),
-#         ("REPORT", "REPORT"),
-#         ("EMERGENCY", "EMERGENCY"),
-#     ]
+    APPOINTMENT_STATUS_CHOICES = [
+        ("PENDING", "PENDING"),
+        ("CONFIRMED", "CONFIRMED"),
+        ("CANCELLED", "CANCELLED"),
+    ]
     
-#     APPOINTMENT_STATUS_CHOICES = [
-#         ("PENDING", "PENDING"),
-#         ("CONFIRMED", "CONFIRMED"),
-#         ("CANCELLED", "CANCELLED"),
-#     ]
-#     # medical_rec
-#     session = models.PositiveSmallIntegerField(choices=APPOINTEMENT_SESSION_CHOICES, default=1)
-#     case_type = models.PositiveSmallIntegerField(choices=CASE_TYPE_CHOICES, default=1)
-#     # appointment_date
-#     appointment_staus = models.CharField(max_length=10, choices=APPOINTMENT_STATUS_CHOICES, default="PENDING")
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    # doctor
+    category = models.CharField(max_length=20, choices=MEDICS_CATEFORY_CHOICES, default="CHECKUP")
+    case_type = models.CharField(max_length=10, choices=CASE_TYPE_CHOICES, default=CASE_TYPE_CHOICES[0][0])
+    appointment_booked = models.BooleanField(default=False)
+    session = models.CharField(max_length=20, choices=APPOINTEMENT_SESSION_CHOICES, default=APPOINTEMENT_SESSION_CHOICES[0][0])
+    
+    # appointment_date
+    appointment_staus = models.CharField(max_length=10, choices=APPOINTMENT_STATUS_CHOICES, default=APPOINTMENT_STATUS_CHOICES[0][0])

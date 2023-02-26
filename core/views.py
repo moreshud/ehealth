@@ -15,31 +15,25 @@ def sign_up(request):
     
     if request.method == "POST":
         form = forms.SignUpForm(request.POST)
+        user_type = request.POST.get("user_type")
         
         if form.is_valid():
             email = form.cleaned_data.get("email").lower()
             user = form.save(commit=False)
-            user.email = email
+            # user.email = email
+            user.user_type = user_type
             user.save()
             
             login(request, user)
             
-            if form.cleaned_data.get("user_type") == User.USER_TYPE_CHOICES[0][0]: #DOCTOR
-                Doctor.objects.create(doctor=user)
+            if  user_type == User.USER_TYPE_CHOICES[0][0]: #DOCTOR
+                Doctor.objects.create(user=user)
                 return redirect("/doctor/")
             
-            Patient.objects.create(patient=user)
+            Patient.objects.create(user=user)
             return redirect("/patient/") 
             
     return render(request, "sign-up.html", {
         "form": form
     })
-
-@login_required()
-def patient_home(request):
-    return render(request, "patient-index.html")
-
-@login_required()
-def doctor_home(request):
-    return render(request, "doctor-index.html")
 

@@ -1,0 +1,18 @@
+{% extends 'modals/base-modal.html' %}
+
+{% block modal-id %}id="appointmentModal"{% endblock modal-id %}
+{% block modal-title %}{{ request.user.first_name | title }} - Health Complaint Form{% endblock modal-title %}
+
+{% block form %}
+<form action="#" method="POST">
+    {% csrf_token %}
+    <div class="modal-body">
+        {{ user_form }}
+        {{ patient_form }}
+    </div>
+  
+    <input type="hidden" value="medics" name="action">
+    <button type="submit" class="btn appointment-btn">Save</button>
+</form>
+{% endblock form %}
+{% block close %}{% endblock close %}

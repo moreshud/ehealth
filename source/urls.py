@@ -19,6 +19,17 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from core import views
+from core.patient import views as patient_views
+from core.doctor import views as doctor_views
+
+patient_urlpatterns = [
+    path("", patient_views.dashboard, name="dashboard"),
+    # path("profile", patient_views.profile, name="profile"),
+]
+
+doctor_urlpatterns = [
+    path("", doctor_views.dashboard, name="dashboard")
+]
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,8 +38,8 @@ urlpatterns = [
     path("sign-up/", views.sign_up),
     
     path("", views.home),
-    path("patient/", views.patient_home),
-    path("doctor/", views.doctor_home),
+    path("patient/", include((patient_urlpatterns, "patient"))),
+    path("doctor/", include((doctor_urlpatterns, "doctor"))),
 ]
 
 if settings.DEBUG:
