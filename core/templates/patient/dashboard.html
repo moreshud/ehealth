@@ -16,7 +16,7 @@
             <a href="" class="btn btn-primary mx-1 py-1" data-bs-toggle="modal" data-bs-target="#profileModal">
               update your profile
             </a>
-            |<a href="" class="btn btn-warning mx-1 py-1" data-bs-toggle="modal" data-bs-target="#medicsModal">
+            | <a href="" class="btn btn-warning mx-1 py-1" data-bs-toggle="modal" data-bs-target="#medicsModal">
               <i class="fa fa-plus bold" aria-hidden="true"></i> medics report
             </a>
             {% endif %}
@@ -38,7 +38,21 @@
       {% include "modals/medics.html" %}
       {% comment %} {% include "modals/appointment.html" %} {% endcomment %}
       <p>
-        Example Patient page template
+        <p><b>Category Count</b></p>
+        {% for catogry in category_counts %}
+          <p>{{catogry.category}} - {{catogry.count}}</p>
+        {% endfor %}
+
+        <p><b>CaseType Count</b></p>
+        {% for case in case_type_counts %}
+          <p>{{case.case_type}} - {{case.count}}</p>
+        {% endfor %}
+        
+
+        <p><b>Medics Reports</b></p>
+        {% for record in records%}
+          <p>{{record.category | title }} - {{record.case_type | title }}</p>
+        {% endfor %}
       </p>
     </div>
   </section

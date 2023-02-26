@@ -98,8 +98,8 @@ class Patient(TimestampedModel):
     genotype = models.CharField(max_length=10, choices=GENOTYPE_CHOICES, blank=True)
     status = models.CharField(max_length=8, choices=STATUS, default="ACTIVE")
     
-    # def __str__(self):
-    #     return self.user.get_full_name()
+    def __str__(self) -> str:
+        return self.user.email
     
 class Doctor(TimestampedModel):
     SPECIALITY_CHOICES = [
@@ -111,6 +111,9 @@ class Doctor(TimestampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True,)
     speciality = models.CharField(max_length=20, choices=SPECIALITY_CHOICES, default="GENERAL")
     status = models.CharField(max_length=8, choices=STATUS, default="ACTIVE")
+    
+    def __str__(self) -> str:
+        return self.user.email
 
 
 class MedicsAppointment(TimestampedModel):
@@ -150,3 +153,6 @@ class MedicsAppointment(TimestampedModel):
     
     # appointment_date
     appointment_staus = models.CharField(max_length=10, choices=APPOINTMENT_STATUS_CHOICES, default=APPOINTMENT_STATUS_CHOICES[0][0])
+    
+    def __str__(self) -> str:
+        return self.patient.user.email
