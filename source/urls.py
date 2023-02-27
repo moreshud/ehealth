@@ -16,11 +16,12 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
 from core import views
 from core.patient import views as patient_views
 from core.doctor import views as doctor_views
+from core.forms import SignInForm
 
 patient_urlpatterns = [
     path("", patient_views.dashboard, name="dashboard"),
@@ -33,8 +34,8 @@ doctor_urlpatterns = [
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("sign-in/", auth_views.LoginView.as_view(template_name="sign-in.html")),
-    path("sign-out/", auth_views.LogoutView.as_view(next_page="/")),
+    path("sign-in/", LoginView.as_view(template_name = "sign-in.html", form_class = SignInForm)),
+    path("sign-out/", LogoutView.as_view(next_page="/")),
     path("sign-up/", views.sign_up),
     
     path("", views.home),

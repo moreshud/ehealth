@@ -38,7 +38,7 @@
       {% include "modals/medics.html" %}
       {% comment %} {% include "modals/appointment.html" %} {% endcomment %}
       <p>
-        <p><b>Category Count</b></p>
+        <p><b>Category Count Cards</b></p>
         {% for catogry in category_counts %}
           <p>{{catogry.category}} - {{catogry.count}}</p>
         {% endfor %}
@@ -48,8 +48,7 @@
           <p>{{case.case_type}} - {{case.count}}</p>
         {% endfor %}
         
-
-        <p><b>Medics Reports</b></p>
+        <p><b>Medics Reports Tabulated</b></p>
         {% for record in records%}
           <p>{{record.category | title }} - {{record.case_type | title }}</p>
         {% endfor %}

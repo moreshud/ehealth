@@ -17,7 +17,7 @@ def dashboard(request):
     
     def categorical_data_counts(filter, field):
         return filter.values(field).annotate(count=Count(field)).order_by('-count')
-    records = MedicsAppointment.objects.filter(patient=patient)
+    records = MedicsAppointment.objects.filter(patient=patient).order_by('-created_on')
     # category_counts = records.values('category',).annotate(count=Count('category')).order_by('-count',)
     category_counts = categorical_data_counts(records, "category")[:3]
     case_type_counts = categorical_data_counts(records, "case_type")
