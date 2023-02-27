@@ -144,13 +144,12 @@ class MedicsAppointment(TimestampedModel):
     ]
     
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    # doctor
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, null = True)
     category = models.CharField(max_length=20, choices=MEDICS_CATEFORY_CHOICES, default="MALARIA")
     case_type = models.CharField(max_length=10, choices=CASE_TYPE_CHOICES, default=CASE_TYPE_CHOICES[0][0])
     appointment_booked = models.BooleanField(default=False)
-    session = models.CharField(max_length=20, choices=APPOINTEMENT_SESSION_CHOICES, default=APPOINTEMENT_SESSION_CHOICES[0][0])
-    
-    # appointment_date
+    appointment_session = models.CharField(max_length=20, choices=APPOINTEMENT_SESSION_CHOICES, default=APPOINTEMENT_SESSION_CHOICES[0][0])
+    appointment_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
     appointment_staus = models.CharField(max_length=10, choices=APPOINTMENT_STATUS_CHOICES, default=APPOINTMENT_STATUS_CHOICES[0][0])
     
     def __str__(self) -> str:

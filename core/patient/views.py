@@ -14,21 +14,16 @@ def dashboard(request):
     user_form = forms.UserProfileForm(request.POST or None, instance=user)
     patient_form = forms.PatientProfileForm(request.POST or None, instance=patient)
     medics_form = forms.PatientMedicsForm(request.POST or None)
-    
-    def categorical_data_counts(filter, field):
-        return filter.values(field).annotate(count=Count(field)).order_by('-count')
-    records = MedicsAppointment.objects.filter(patient=patient).order_by('-created_on')
-    # category_counts = records.values('category',).annotate(count=Count('category')).order_by('-count',)
-    category_counts = categorical_data_counts(records, "category")[:3]
-    case_type_counts = categorical_data_counts(records, "case_type")
+    appointment_form = forms.PatientAppointmentForm(request.POST or None)
     
     
-    # category_case_type_sum_values = Counter()
-    # for row in category_counts:
-    #     category_case_type_sum_values[row['category']] += row['count']
-    #     category_case_type_sum_values[row['case_type']] += row['count']
-        
-    # print(category_case_type_sum_values)
+    def categorical_data_counts(filterer, field):
+        return filterer.values(field).annotate(count=Count(field)).order_by('-count',)
+    
+    patient_records_filter = MedicsAppointment.objects.filter(patient=patient).order_by('-created_on')
+    records = patient_records_filter.order_by('-created_on', 'appointment_date')
+    category_counts = categorical_data_counts(patient_records_filter, "category")[:3]
+    case_type_counts = categorical_data_counts(patient_records_filter, "case_type")[:3]
         
     if request.method == "POST":
         request_action = request.POST.get("action")
@@ -36,13 +31,20 @@ def dashboard(request):
         if request_action == "profile":
             if user_form.is_valid() and patient_form.is_valid():
                 patient_form.save()
-                user_form.save()
-                
+                user_form.save()   
         elif request_action == "medics":
             if medics_form.is_valid():
                 form_record = medics_form.save(commit=False)
                 form_record.patient = patient
                 form_record.save()
+        elif request_action == "appointment":
+            if appointment_form.is_valid():
+                appointment = appointment_form.save(commit=False)
+                appointment.appointment_booked = True
+                appointment.patient = patient
+                # appointment.doctor = selected_doctor
+                appointment.save()
+            pass
             
         return redirect(reverse("patient:dashboard"))
         
@@ -50,15 +52,14 @@ def dashboard(request):
         "user_form": user_form, 
         "patient_form": patient_form,
         "medics_form": medics_form,
+        "appointment_form": appointment_form,
         "records": records,
         "category_counts": category_counts,
         "case_type_counts": case_type_counts,
     }
+    
+    # forms:{user: user_form}
+    # data :{records: records}
     return render(request, "patient/dashboard.html", context)
-
-# @login_required(login_url="/sign-in/?next=/patient/")
-# def medics_appointment(request):
-#     user_form = forms.PatientProfileForm()
-#     return render(request, "patient/profile.html", {"user_form": user_form})
 
 
