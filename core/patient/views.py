@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.db.models import Count
-from core.models import MedicsAppointment, Patient
+from core.models import Doctor, MedicsAppointment, Patient
 
 from core.patient import forms
 
@@ -20,6 +20,7 @@ def dashboard(request):
     def categorical_data_counts(filterer, field):
         return filterer.values(field).annotate(count=Count(field)).order_by('-count',)
     
+    distinct_doctors = Doctor.objects.all().values_list("user","speciality").distinct()
     patient_records_filter = MedicsAppointment.objects.filter(patient=patient).order_by('-created_on')
     records = patient_records_filter.order_by('-created_on', 'appointment_date')
     category_counts = categorical_data_counts(patient_records_filter, "category")[:3]
@@ -53,6 +54,7 @@ def dashboard(request):
         "patient_form": patient_form,
         "medics_form": medics_form,
         "appointment_form": appointment_form,
+        "distinct_doctors": distinct_doctors,
         "records": records,
         "category_counts": category_counts,
         "case_type_counts": case_type_counts,

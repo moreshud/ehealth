@@ -13,11 +13,11 @@
               complete your profile
             </a>
             {% else %}
-            <a href="" class="btn btn-primary mx-1 py-1" data-bs-toggle="modal" data-bs-target="#profileModal">
-              update your profile
+            <a href="" class="btn btn-primary mx-1 py-1 text-uppercase" data-bs-toggle="modal" data-bs-target="#profileModal">
+              <span style="font-size: 11px; font-weight: 900;">update your profile</span>
             </a>
-            | <a href="" class="btn btn-warning mx-1 py-1 text-uppercase" data-bs-toggle="modal" data-bs-target="#medicsModal">
-              <i class="fa fa-plus bold" aria-hidden="true"></i> medics report
+            | <a href="" class="btn btn-success mx-1 py-1 text-uppercase" data-bs-toggle="modal" data-bs-target="#medicsModal">
+              <span style="font-size: 11px; font-weight: 900;"><i class="fa fa-plus bold" aria-hidden="true"></i> medics report</span>
             </a>
             {% endif %}
               
@@ -117,13 +117,16 @@
                   <tbody>
                     {% for record in records%}
                       <tr>
-                        <td>{{record.id | title }}</td>
+                        <td>{{record.id }}</td>
                         <td>{{record.category | title }}</td>
                         <td>{{record.case_type | title }}</td>
                         {% if record.appointment_booked %}
-                          <td class = ><span class="btn btn-warning text-uppercase">{{record.appointment_session }}</span> | {{record.appointment_date | date }}</td>
+                          <td>
+                            <span class="btn btn-warning text-uppercase mr-5" style="font-size: 10px; font-weight: 700; cursor: default;">{{record.appointment_session }}</span> | 
+                            <span class="btn btn-success text-uppercase ml-5" style="font-size: 10px; font-weight: 700; cursor: default;">{{record.appointment_date | date }}</span>
+                          </td>
                         {% else %}
-                          <td><span class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointmentModal">Book App.</span></td>
+                          <td><span class="btn btn-primary text-uppercase" data-bs-toggle="modal" data-bs-target="#appointmentModal" style="font-size: 10px; font-weight: 700;">Book Appointment</span></td>
                         {% endif %}
                         
                         <td>{{record.created_on | date }}</td>
