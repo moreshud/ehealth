@@ -117,6 +117,16 @@ class PatientMedicsForm(forms.ModelForm):
         fields = ("category", "case_type",)
         
 class PatientAppointmentForm(forms.ModelForm):
+    appointment_date = forms.DateField(
+        label="Appointment Date",
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control mb-2',
+            }
+        ),
+        required=True
+    )
+    
     appointment_session = forms.ChoiceField(
         label = "Appointment Session",
         choices=MedicsAppointment.APPOINTEMENT_SESSION_CHOICES,
@@ -128,17 +138,8 @@ class PatientAppointmentForm(forms.ModelForm):
         required=True
     )
     
-    appointment_date = forms.DateField(
-        label="Appointment Date",
-        widget=forms.DateInput(
-            attrs={
-                'class': 'form-control mb-2',
-            }
-        ),
-        required=True
-    )
     class Meta:
         model = MedicsAppointment
-        fields = ("appointment_session", "appointment_date",)
+        fields = ("appointment_date","appointment_session", )
         
         

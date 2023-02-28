@@ -13,8 +13,8 @@
         <div class="form-group">
             <label for="doctor">Available Doctors</label>
             <select class="form-control" name="doctor" id="doctor">
-                {% for user, speciality in distinct_doctors %}
-                <option>{{user.first_name}} - {{speciality}}</option>
+                {% for doctor in distinct_doctors %}
+                <option value={{doctor.user.id}}>{{doctor.user.get_full_name | title }} - {{doctor.speciality}}</option>
                 {% endfor %}
             </select>
         </div>
