@@ -1,105 +1,146 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Medilab - {% block title %}{% endblock title %}</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
 
-  <title>Medilab - {% block title %}{% endblock title %}</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon" />
+    <link
+      href="{% static 'assets/img/apple-touch-icon.png' %}"
+      rel="apple-touch-icon"
+    />
 
-  <!-- Favicons -->
-  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i' %}"
+      rel="stylesheet"
+    />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i' %}" rel="stylesheet">
+    {% comment %} {% load bootstrap4 %} {% bootstrap_css %} {%
+    bootstrap_javascript jquery="full" %} {% endcomment %}
 
-  {% comment %} {% load bootstrap4 %}
-  {% bootstrap_css %}
-  {% bootstrap_javascript jquery="full" %} {% endcomment %}
+    <!-- Vendor CSS Files -->
+    <link
+      href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}"
+      rel="stylesheet"
+    />
+    {% comment %}
+    <link
+      href="{% static 'assets/vendor/animate.css/animate.min.css' %}"
+      rel="stylesheet"
+    />
+    {% endcomment %}
+    <link
+      href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    {% comment %}
+    <link
+      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
+      rel="stylesheet"
+    />
+    {% endcomment %}
+    <link
+      href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}"
+      rel="stylesheet"
+    />
+    {% comment %}
+    <link
+      href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}"
+      rel="stylesheet"
+    />
+    {% endcomment %} {% comment %}
+    <link
+      href="{% static 'assets/vendor/remixicon/remixicon.css' %}"
+      rel="stylesheet"
+    />
+    {% endcomment %} {% comment %}
+    <link
+      href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}"
+      rel="stylesheet"
+    />
+    {% endcomment %}
 
-  <!-- Vendor CSS Files -->
-  <link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
-  {% comment %} <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet"> {% endcomment %}
-  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  {% comment %} <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet"> {% endcomment %}
-  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-  {% comment %} <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet"> {% endcomment %}
-  {% comment %} <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet"> {% endcomment %}
-  {% comment %} <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet"> {% endcomment %}
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
 
-  <!-- Template Main CSS File -->
-  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    {% block head %}{% endblock head %}
 
-  {% block head %}{% endblock head %}
-
-  <!-- =======================================================
+    <!-- =======================================================
   * Template Name: Medilab - v4.10.0
   * Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- ======= Top Bar ======= -->
     <div id="topbar" class="d-flex align-items-center fixed-top">
-        <div class="container d-flex justify-content-between">
-            <div class="contact-info d-flex align-items-center">
-                <i class="bi bi-envelope"></i> <a href="mailto:mo.yekini@gmail.com">mo.yekini@gmail.com</a>
-                <i class="bi bi-phone"></i> +234 8062270083
-            </div>
+      <div class="container d-flex justify-content-between">
+        <div class="contact-info d-flex align-items-center">
+          <i class="bi bi-envelope"></i>
+          <a href="mailto:mo.yekini@gmail.com">mo.yekini@gmail.com</a>
+          <i class="bi bi-phone"></i> +234 8062270083
         </div>
+      </div>
     </div>
 
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center">
-
+      <div class="container d-flex align-items-center">
         <h1 class="logo me-auto"><a href="/">Medilab</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo me-auto"><img src="{% static 'assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
         <nav id="navbar" class="navbar order-last order-lg-0">
-            <ul>
-                <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                <li><a class="nav-link scrollto" href="#services">Services</a></li>
-            </ul>
-            <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
+          <ul>
+            <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
         {% if request.user.is_authenticated %}
         <a href="/sign-out" class="appointment-btn">Sign Out</a>
         {% endif %}
-        
-        
+      </div>
+    </header>
+    <!-- End Header -->
 
-        </div>
-    </header><!-- End Header -->
-
-    <main id="main">
-        {% block content %}{% endblock content %}
-    </main><!-- End #main -->
+    <main id="main">{% block content %}{% endblock content %}</main>
+    <!-- End #main -->
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-        <div class="container d-md-flex py-4">
+      <div class="container d-md-flex py-4">
         <div class="me-md-auto text-center text-md-start">
-            <div class="copyright">
-            &copy; Copyright <strong><span>Medilab</span></strong>. All Rights Reserved
-            </div>
-            <div class="credits">
+          <div class="copyright">
+            &copy; Copyright <strong><span>Medilab</span></strong
+            >. All Rights Reserved
+          </div>
+          <div class="credits">
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-            </div>
+          </div>
         </div>
-        </div>
-    </footer><!-- End Footer -->
+      </div>
+    </footer>
+    <!-- End Footer -->
 
-    {% comment %} <div id="preloader"></div>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a> {% endcomment %}
+    {% comment %}
+    <div id="preloader"></div>
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+    {% endcomment %}
 
     <!-- Vendor JS Files -->
     <script src="{% static 'assets/vendor/jquery.min.js_3.5.1/jquery.min.js' %}"></script>
@@ -112,14 +153,12 @@
     <!-- Template Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
     <script type="text/javascript">
-        $(function () {
-            $(".app-modal").click(function () {
-                let dataRowId = $(this).attr('data-id');
-                $("#appointmentModal .modal-body #dataRowId").val(dataRowId);
-            })
-        }); 
-            
+      $(function () {
+        $(".app-modal").click(function () {
+          let dataRowId = $(this).attr("data-id");
+          $("#appointmentModal .modal-body #dataRowId").val(dataRowId);
+        });
+      });
     </script>
-</body>
-
+  </body>
 </html>
