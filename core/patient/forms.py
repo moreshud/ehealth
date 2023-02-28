@@ -63,6 +63,7 @@ class PatientProfileForm(forms.ModelForm):
         widget=forms.DateInput(
             attrs={
                 'class': 'form-control mb-2',
+                'placeholder': 'YYYY-MM-DD'
             }
         ),
         required=True
@@ -122,6 +123,7 @@ class PatientAppointmentForm(forms.ModelForm):
         widget=forms.DateInput(
             attrs={
                 'class': 'form-control mb-2',
+                'placeholder': 'YYYY-MM-DD'
             }
         ),
         required=True

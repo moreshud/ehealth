@@ -20,7 +20,7 @@ def dashboard(request):
         return filterer.values(field).annotate(count=Count(field)).order_by('-count',)
     
     distinct_doctors = Doctor.objects.all().order_by("-user")
-    patient_records_filter = MedicsAppointment.objects.filter(patient=patient).order_by('-created_on')
+    patient_records_filter = MedicsAppointment.objects.filter(patient=patient).order_by('-created_on', '-updated_on')
     records = patient_records_filter.order_by('-created_on', 'appointment_date')
     category_counts = categorical_data_counts(patient_records_filter, "category")[:3]
     case_type_counts = categorical_data_counts(patient_records_filter, "case_type")[:3]
@@ -39,11 +39,15 @@ def dashboard(request):
                 form_record.save()
         elif request_action == "appointment":
             if appointment_form.is_valid():
-                appointment = appointment_form.save(commit=False)
-                appointment.appointment_booked = True
-                appointment.patient = patient
-                appointment.doctor = Doctor.objects.get(user = request.POST.get("doctor"))    
-                appointment.save()
+                pass
+                # get the row of the records and pass it here
+                # print(MedicsAppointment.objects.get(patient=patient,))
+                
+                # appointment = appointment_form.save(commit=False)
+                # appointment.appointment_booked = True
+                # appointment.patient = patient
+                # appointment.doctor = Doctor.objects.get(user = request.POST.get("doctor"))    
+                # appointment.save()
                             
         return redirect(reverse("patient:dashboard"))
         
