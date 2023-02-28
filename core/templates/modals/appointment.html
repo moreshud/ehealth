@@ -2,13 +2,14 @@
 
 {% block modal-id %}id="appointmentModal"{% endblock modal-id %}
 {% block modal-title %}Medilab - Apppointment Booking {% endblock modal-title %}
-
+<p>dataRowId</p>
 {% block form %}
 <form action="#" method="POST">
     {% csrf_token %}
     <div class="modal-body">
+        {{ record.case_type }}
         {{ appointment_form }}
-
+        
         {% if distinct_doctors %}
         <div class="form-group">
             <label for="doctor">Available Doctors</label>
@@ -19,10 +20,9 @@
             </select>
         </div>
         {% endif %}
+
+        <input type="hidden" name="dataRowId" id="dataRowId" value=""/>
     </div>
-    
-    
-    
   
     <input type="hidden" value="appointment" name="action">
     <button type="submit" class="btn appointment-btn">Save</button>

@@ -107,7 +107,6 @@
               <table class="table table-striped">
                   <thead class="thead-inverse">
                       <tr>
-                          <th>#</th>
                           <th>Diagnosis</th>
                           <th>Sensitivity</th>
                           <th>Appointment</th>
@@ -117,17 +116,16 @@
                   <tbody>
                     {% for record in records%}
                       <tr>
-                        <td>{{record.id }}</td>
                         <td>{{record.category | title }}</td>
                         <td>{{record.case_type | title }}</td>
                         {% if record.appointment_booked %}
                           <td>
-                            <span class="btn btn-success text-uppercase mr-5" style="font-size: 10px; font-weight: 700; cursor: default;">Doc. {{record.doctor.user.get_full_name }}</span> | 
+                            <span class="btn btn-success text-uppercase mr-5" style="font-size: 10px; font-weight: 700; cursor: default;">{{record.doctor.user.get_full_name }}, {{ record.doctor.speciality}}</span> | 
                             <span class="btn btn-warning text-uppercase mr-5" style="font-size: 10px; font-weight: 700; cursor: default;">{{record.appointment_session }}</span> | 
                             <span class="btn btn-danger text-uppercase ml-5" style="font-size: 10px; font-weight: 700; cursor: default;">{{record.appointment_date | date }}</span>
                           </td>
                         {% else %}
-                          <td><span class="btn btn-primary text-uppercase" data-bs-toggle="modal" data-bs-target="#appointmentModal" style="font-size: 10px; font-weight: 700;">Book Appointment</span></td>
+                          <td><span class="btn btn-primary text-uppercase app-modal" data-id={{record.id}} data-bs-toggle="modal" data-bs-target="#appointmentModal" style="font-size: 10px; font-weight: 700;">Book Appointment</span></td>
                         {% endif %}
                         
                         <td>{{record.created_on | date }}</td>
@@ -155,5 +153,6 @@
 
       </div>
     </div>
-  </section
+  </section>
 {% endblock content %}
+

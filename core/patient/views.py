@@ -39,15 +39,11 @@ def dashboard(request):
                 form_record.save()
         elif request_action == "appointment":
             if appointment_form.is_valid():
-                pass
-                # get the row of the records and pass it here
-                # print(MedicsAppointment.objects.get(patient=patient,))
-                
-                # appointment = appointment_form.save(commit=False)
-                # appointment.appointment_booked = True
-                # appointment.patient = patient
-                # appointment.doctor = Doctor.objects.get(user = request.POST.get("doctor"))    
-                # appointment.save()
+                medic_record = MedicsAppointment.objects.get(id = request.POST.get('dataRowId'))
+                medic_record.appointment_date = request.POST.get('appointment_date')      
+                medic_record.appointment_booked = True
+                medic_record.doctor = Doctor.objects.get(user = request.POST.get("doctor"))    
+                medic_record.save()
                             
         return redirect(reverse("patient:dashboard"))
         
