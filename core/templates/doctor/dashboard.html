@@ -19,6 +19,48 @@
   <section class="inner-page">
     <div class="container">
       {% include "modals/appointment-approval.html" %}
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body text-uppercase">
+              <div class="row">
+                <h4><i class="fa fa-address-book " aria-hidden="true"></i> Bookings</h4>
+                {% for booking in appointment_status_counts %}
+                <div class="col-md-4 mt-2">
+                  <h6 class="small">{{ booking.appointment_status }}</h6>
+                  <p>{{ booking.count }}</p>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body text-uppercase">
+              <div class="row">
+                <h4>Diagnosis/Sensitivity</h4>
+
+                {% for result in diagnosis_counts %}
+                <div class="col-md-4  mt-3">
+                  <span>{{result.category}} - {{ result.count }}</span>
+                </div>
+                {% endfor %}
+
+                {% for result in sensitivity_counts %}
+                <div class="col-md-4 mt-2">
+                  <h6>{{result.case_type}} - {{ result.count }}</h6>
+                </div>
+                {% endfor %}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <div class="row mt-5">
         <div class="col-lg-12 col-md-12">

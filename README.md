@@ -17,12 +17,12 @@ Note: This is a required technical assessment for ehealth4everyone application.
 
 ### Completed Features
 - Authentication module - sign-in, sign-out for user entities
-- Patient mini analytics
+- Patient/Doctor mini analytics
 - Patient profile completion and updates
 - Patient medics reporting and appointment booking
+- Doctor appointment approval
 
 ### Outstandings
 - Patient medics/appointment search feature
-- Doctor mini analytics
-- Doctor appointment email notification and approval
+- Doctor appointment email notification
 - General QA checks and cleanup.
