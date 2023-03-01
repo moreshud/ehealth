@@ -177,7 +177,7 @@ class MedicsAppointment(TimestampedModel):
         default=APPOINTEMENT_SESSION_CHOICES[0][0],
     )
     appointment_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
-    appointment_staus = models.CharField(
+    appointment_status = models.CharField(
         max_length=10,
         choices=APPOINTMENT_STATUS_CHOICES,
         default=APPOINTMENT_STATUS_CHOICES[0][0],

@@ -1,0 +1,20 @@
+{% extends 'modals/base-modal.html' %}
+
+{% block modal-id %}id="appointmentApprovalModal"{% endblock modal-id %}
+{% block modal-title %}Medilab - Apppointment Approval {% endblock modal-title %}
+
+{% block form %}
+<form action="#" method="POST">
+    {% csrf_token %}
+    <div class="modal-body text-center">
+        <p>Hi! {{request.user.first_name | title}} would you like to accept or reject the appointment booking?</p>
+        <input type="hidden" name="dataRowId" id="dataRowId" value=""/>
+    </div>
+  
+    <div class="form-group" style="margin-left: 15px; margin-bottom: 10px;">
+        <button type="submit" class="btn btn-success" name="decision" value="CONFIRMED">ACCEPT</button> | 
+        <button type="submit" class="btn btn-danger" name="decision" value="CANCELLED">REJECT</button>
+    </div>
+</form>
+{% endblock form %}
+{% block close %}{% endblock close %}

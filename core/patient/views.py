@@ -52,6 +52,7 @@ def dashboard(request):
                     id=request.POST.get("dataRowId")
                 )
                 medic_record.appointment_date = request.POST.get("appointment_date")
+                medic_record.appointment_session = request.POST.get("appointment_session")
                 medic_record.appointment_booked = True
                 medic_record.doctor = Doctor.objects.get(
                     user=request.POST.get("doctor")

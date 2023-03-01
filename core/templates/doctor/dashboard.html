@@ -18,9 +18,63 @@
 
   <section class="inner-page">
     <div class="container">
-      <p>
-        Example Doctor page template
-      </p>
+      {% include "modals/appointment-approval.html" %}
+
+      <div class="row mt-5">
+        <div class="col-lg-12 col-md-12">
+          <div>
+            Search params here
+          </div>
+          
+          <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead class="thead-inverse">
+                      <tr>
+                          <th>Patient</th>
+                          <th>Diagnosis</th>
+                          <th>Sensitivity</th>
+                          <th>Appointment</th>
+                          <th>Reporting Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for record in doctor_records%}
+                      <tr>
+                        <td>{{record.patient.user.get_full_name | title }}</td>
+                        <td>{{record.category | title }}</td>
+                        <td>{{record.case_type | title }}</td>
+                        <td>
+                          <span class="btn btn-warning text-uppercase mr-5" style="font-size: 10px; font-weight: 700; cursor: default;">{{record.appointment_session }}</span> | 
+                          <span class="btn btn-primary text-uppercase ml-5" style="font-size: 10px; font-weight: 700; cursor: default;">{{record.appointment_date | date }}</span> |
+                         
+                          {% if record.appointment_status == "PENDING" %}
+                            <span class="btn btn-success text-uppercase ml-5 app-modal" data-id={{record.id}} data-bs-toggle="modal" data-bs-target="#appointmentApprovalModal" style="font-size: 10px; font-weight: 700;">PENDING</span>
+                          {% elif record.appointment_status == "CONFIRMED" %}
+                            <span class="btn btn-success text-uppercase ml-5" style="font-size: 10px; font-weight: 700; cursor: default;">ACCEPTED</span>
+                          {% else %}
+                            <span class="btn btn-danger text-uppercase ml-5" style="font-size: 10px; font-weight: 700; cursor: default;">CANCELLED</span>
+                          {% endif %} 
+                        </td>
+                        
+                        <td>{{record.created_on | date }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 py-2">
+            {% comment %} <div class="card bg-success text-white h-100">
+                <div class="card-body bg-success">
+                    <div class="rotate">
+                        <i class="fa fa-user fa-4x"></i>
+                    </div>
+                    <h6 class="text-uppercase">Users</h6>
+                    <h1 class="display-4">134</h1>
+                </div>
+            </div> {% endcomment %}
+        </div>
+      </div>
     </div>
   </section
 {% endblock content %}
